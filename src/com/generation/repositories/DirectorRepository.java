@@ -101,6 +101,20 @@ public class DirectorRepository {
         return res;
     }
 
+    public List<Director> readOrder(String condition) throws Exception {
+        
+        List<Director> res = new List<Director>();
+
+        Statement s = con.createStatement();
+        ResultSet rs = s.executeQuery("SELECT * FROM director ORDER BY " + condition);
+
+        while(rs.next())
+            res.add(_rsToDirector(rs));
+
+        s.close();
+        return res;
+    }
+
     private Director _rsToDirector(ResultSet rs) throws Exception{
 
         Director d = new Director();
@@ -110,6 +124,20 @@ public class DirectorRepository {
         d.setDob(LocalDate.parse(rs.getString("dob")));
         d.setNationality(rs.getString("nationality"));
         return d;
+    }
+
+    public List<Director> queryGenerica(String query)throws Exception{
+
+        List<Director> res = new List<Director>();
+
+        Statement s = con.createStatement();
+        ResultSet rs = s.executeQuery(query);
+
+        while(rs.next())
+            res.add(_rsToDirector(rs));
+
+        s.close();
+        return res;
     }
 
 }

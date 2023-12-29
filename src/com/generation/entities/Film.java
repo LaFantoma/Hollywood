@@ -168,9 +168,9 @@ public class Film {
 
     @Override
     public String toString() {
-        return "Film [id=" + id + ", title=" + title + ", release_date=" + release_date + ", score=" + score
-                + ", budget=" + budget + ", revenue=" + revenue + ", number_of_oscars=" + number_of_oscars + ", pegi="
-                + pegi + ", id_director=" + director_id + "]";
+        return "ID film = " + id + ", titolo = " + title + ", data release = " + release_date + "\nvalutazione = " + score
+                + ", budget = " + budget + ", incasso = " + revenue + "\noscar vinti = " + number_of_oscars + ", pegi = "
+                + pegi + ", regista = " + this.myDirector.getName() + " " + this.myDirector.getSurname() + "\n";
     }
 
 

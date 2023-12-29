@@ -37,7 +37,7 @@ public class Database {
 
         List<Film> movie = new List<Film>();                //Creo una lista di film dove vado ad aggiungere res
         movie.add(f);
-            d.setMyFilms(movie);
+        d.setMyFilms(movie);
     }
 
     public Film readFilmById(int filmId)throws Exception{
@@ -59,9 +59,49 @@ public class Database {
         return res;
     }
 
+    public List<Film> readOrderFilm(String condition)throws Exception{
+
+        List<Film> res = fRepo.readOrder(condition);
+
+        for(Film f : res)
+            associaFilm(f);
+        
+        return res;
+    }
+
+    public List<Director> readOrderDirector(String condition)throws Exception{
+
+        List<Director> res = dRepo.readOrder(condition);
+
+        for(Director d : res)
+            associaDirector(d);
+        
+        return res;
+    }
+
     public List<Director> readAllDirectors()throws Exception{
 
         List<Director> res = dRepo.readAll();
+
+        for(Director d : res)          //Per ogni regista faccio associazione film-a-regista e regista-a-film
+            associaDirector(d);
+
+        return res;
+    }
+
+    public List<Film> filmDirectedBy(Director d)throws Exception{
+
+        List<Film> res = fRepo.readFilmDirectedBy(d.getId());
+
+        for(Film f : res)
+            associaFilm(f);
+
+        return res;
+    }
+
+    public List<Director> directorQuery(String query)throws Exception{
+
+        List<Director> res = dRepo.queryGenerica(query);
 
         for(Director d : res)          //Per ogni regista faccio associazione film-a-regista e regista-a-film
             associaDirector(d);

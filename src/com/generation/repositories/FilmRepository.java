@@ -131,4 +131,18 @@ public class FilmRepository {
         f.setPegi(rs.getInt("pegi"));
         return f;
     }
+
+    public List<Film> readOrder(String condition) throws Exception {
+        
+        List<Film> res = new List<Film>();
+
+        Statement s = con.createStatement();
+        ResultSet rs = s.executeQuery("SELECT * FROM film ORDER BY " + condition);
+
+        while(rs.next())
+            res.add(_rsToFilm(rs));
+
+        s.close();
+        return res;
+    }
 }

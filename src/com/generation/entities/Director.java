@@ -110,9 +110,9 @@ public class Director {
 
     @Override
     public String toString() {
-        return "Director [id=" + id + ", name=" + name + ", surname=" + surname + ", dob=" + dob + ", nationality="
-                + nationality + "]\n" +
-                "Lista film: \n" + this.myFilms;
+        return "ID regista = " + id + ", nome = " + name + ", cognome = " + surname + "\ndata di nascita = " + dob + ", nazionalità = "
+                + nationality + "\n" +
+                "Lista film:\n" + this.myFilms;
                 
     }
 
