@@ -118,6 +118,7 @@ public class Film {
         if(myDirector==null)
             throw new RuntimeException("Director non valido");
         this.myDirector = myDirector;
+        this.director_id = myDirector.getId();
     }
 
     public int getId_director() {

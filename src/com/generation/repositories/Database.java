@@ -19,16 +19,32 @@ public class Database {
         this.fRepo = new FilmRepository(con);
     }
 
+    public void associaDirector(Director d)throws Exception{
+
+        List<Film> movie = fRepo.readFilmDirectedBy(d.getId());     //Creo una lista di film dove metto tutti i film diretti da res
+
+            d.setMyFilms(movie);                                  //Associo la lista di film al regista
+
+            for(Film f : movie)                                     //Ad ogni film della lista associo il regista
+                f.setMyDirector(d);
+
+    }
+
+    public void associaFilm(Film f)throws Exception{
+
+        Director d = dRepo.readOne(f.getId_director());         //Vado a cercare il regista usando la foreign key contenuta su film
+        f.setMyDirector(d);                                 //Associo il regista al film 
+
+        List<Film> movie = new List<Film>();                //Creo una lista di film dove vado ad aggiungere res
+        movie.add(f);
+            d.setMyFilms(movie);
+    }
+
     public Film readFilmById(int filmId)throws Exception{
 
         Film res = fRepo.readOne(filmId);                   //Trovo il film con l'id e lo assegno a res
         
-        Director d = dRepo.readOne(res.getId_director());   //Vado a cercare il regista usando la foreign key contenuta su film
-        res.setMyDirector(d);                               //Associo il regista al film 
-
-        List<Film> movie = new List<Film>();                //Creo una lista di film dove vado ad aggiungere res
-        movie.add(res);
-        d.setMyFilms(movie);                                //Associo la lista di film al regista DUBBIO:quando leggo un altro film di quel regista, la lista si sovrascrive?
+        associaFilm(res);
 
         return res;
     }
@@ -37,15 +53,8 @@ public class Database {
 
         List<Film> res = fRepo.readAll();
 
-        for(Film f : res){      //Per ogni film presente faccio associazione regista-a-film e film-a-regista
-
-            Director d = dRepo.readOne(f.getId_director());
-            f.setMyDirector(d);
-
-            List<Film> movie = new List<Film>();                
-            movie.add(f);
-            d.setMyFilms(movie);
-        }
+        for(Film f : res)      //Per ogni film presente faccio associazione regista-a-film e film-a-regista
+            associaFilm(f);
 
         return res;
     }
@@ -54,14 +63,8 @@ public class Database {
 
         List<Director> res = dRepo.readAll();
 
-        for(Director d : res){          //Per ogni regista faccio associazione film-a-regista e regista-a-film
-
-            List<Film> movie = fRepo.readFilmDirectedBy(d.getId());
-            d.setMyFilms(movie);
-
-            for(Film f : movie)
-                f.setMyDirector(d);
-        }
+        for(Director d : res)          //Per ogni regista faccio associazione film-a-regista e regista-a-film
+            associaDirector(d);
 
         return res;
     }
@@ -69,12 +72,8 @@ public class Database {
     public Director readDirectorById(int dirId)throws Exception{
 
         Director res = dRepo.readOne(dirId);                    //Trovo il regista con l'id passato
-        List<Film> movie = fRepo.readFilmDirectedBy(dirId);     //Creo una lista di film dove metto tutti i film diretti da res
-
-        res.setMyFilms(movie);                                  //Associo la lista di film al regista
-
-        for(Film f : movie)                                     //Ad ogni film della lista associo il regista
-            f.setMyDirector(res);
+        
+        associaDirector(res);
 
         return res;
     }
@@ -117,17 +116,32 @@ public class Database {
 
     public List<Film> readFilteredFilm(String condition)throws Exception{
 
-        return fRepo.readFiltered(condition);
+        List<Film> res = fRepo.readFiltered(condition);
+
+        for(Film f : res)
+            associaFilm(f);
+
+        return res;
     }
 
     public List<Director> readFilteredDirector(String condition)throws Exception{
 
-        return dRepo.readFiltered(condition);
+        List<Director> res = dRepo.readFiltered(condition);
+
+        for(Director d : res)
+            associaDirector(d);
+
+        return res;
     }
 
     public List<Film> readFilmDirectedBy(int id)throws Exception{
 
-        return fRepo.readFilmDirectedBy(id);
+        List<Film> res =  fRepo.readFilmDirectedBy(id);
+
+        for(Film f : res)
+            associaFilm(f);
+
+        return res;
     }
 
     public void updateFilm(Film f)throws Exception{

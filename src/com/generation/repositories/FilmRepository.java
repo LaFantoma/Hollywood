@@ -121,6 +121,7 @@ public class FilmRepository {
 
         Film f = new Film();
         f.setId(rs.getInt("id"));
+        f.setId_director(rs.getInt("director_id"));
         f.setTitle(rs.getString("title"));
         f.setRelease_date(LocalDate.parse(rs.getString("release_date")));
         f.setScore(rs.getInt("score"));

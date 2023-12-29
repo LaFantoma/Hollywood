@@ -20,8 +20,11 @@ public class EsempioAvvio
 
         //Lettura da db
         //Prendiamo quello che serve dal database, ad esempio qui prendo tutti i libri
-        List<Director> directors = db.readAllDirectors();
-        Console.print(directors);
+        // Director d = db.readDirectorById(4);
+        // Console.print(d);
+
+        Film f = db.readFilmById(5);
+        Console.print(f);
 
         //faccio i calcoli, ad esempio qui calcolo il prezzo totale
         //int totalPrice = 0;
