@@ -126,6 +126,7 @@ public class Database {
             try {
                 
                 fRepo.askFilm();
+                Console.print("Film aggiunto con successo");
                 isValid = true;
 
             } catch (RuntimeException e) {
@@ -144,6 +145,7 @@ public class Database {
             try {
                 
                 dRepo.askDirector();
+                Console.print("Regista aggiunto con successo");
                 isValid = true;
 
             } catch (RuntimeException e) {
